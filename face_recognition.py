@@ -68,7 +68,7 @@ def resize(images, size=(50,50)):
             image_norm = cv2.resize(image, size, interpolation = cv2.INTER_AREA)
         else:
             image_norm = cv2.resize(image, size, interpolation = cv2.INTER_CUBIC)
-    images_norm.append(image_norm)
+        images_norm.append(image_norm)
     
     return images_norm
 
@@ -83,8 +83,13 @@ def draw_rectangle(image, faces_coords):
             cv2.rectangle(image,(x,y),(x + w,y + h),(150,150,0),8)
         
 
-
-
+def draw_label(image,text,coord,conf,treshold):
+        if conf < treshold:
+            cv2.putText(image, text.capitalize(),coord,
+                        cv2.FONT_HERSHEY_PLAIN,3,(66,53,243),2,cv2.LINE_AA)
+        else:
+            cv2.putText(image, 'Unknown',coord,
+                        cv2.FONT_HERSHEY_PLAIN,3,(66,53,243),2,cv2.LINE_AA)
         
         
     

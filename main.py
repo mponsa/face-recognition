@@ -4,7 +4,7 @@ import cv2
 import cv2.face
 import os
 import numpy as np
-from face_recognition import VideoCamera, FaceDetector, normalize_images, draw_rectangle
+from face_recognition import VideoCamera, FaceDetector, normalize_images, draw_rectangle, draw_label
 
 def collect_dataset():
     images = []
@@ -48,11 +48,14 @@ while True:
             conf = collector.getMinDist()
             pred = collector.getMinLabel()
             treshold = 140
-            cv2.putText(frame, labels_dic[pred].capitalize(),
-                        (faces_coord[i][0], faces_coord[i][1] -10),
-                        cv2.FONT_HERSHEY_PLAIN,1.3,(66,53,243),2,cv2.LINE_AA)
-            draw_rectangle(frame,faces_coord)         
+            print ("Prediction: " + str(labels_dic[pred]) + "\nConfidence: " + str(conf))
+            os.system('clear')
+            draw_label(frame,labels_dic[pred],
+                       (faces_coord[i][0], faces_coord[i][1] - 10),
+                        conf, treshold)
+        draw_rectangle(frame,faces_coord)         
     cv2.imshow("Face recognition", frame)
-    if cv2.waitKey(20) & 0xFF == 27:
+    if cv2.waitKey(40) & 0xFF == 27:
+        webcam.__del__()
         cv2.destroyAllWindows()
         break
